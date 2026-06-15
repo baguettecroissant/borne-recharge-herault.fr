@@ -1,0 +1,35 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items?: BreadcrumbItem[];
+  links?: BreadcrumbItem[];
+}
+
+const { items, links } = Astro.props;
+const breadcrumbItems = links || items || [];
+---
+
+<div class="breadcrumb-container">
+  <div class="container">
+    <nav aria-label="Fil d'Ariane">
+      <ul class="breadcrumb-list" style="list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0;">
+        {breadcrumbItems.map((item, index) => (
+          <li class="breadcrumb-item" style="display: flex; align-items: center; gap: 8px;">
+            {item.href ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span style="color: var(--text); font-weight: 500;">{item.label}</span>
+            )}
+            {index < breadcrumbItems.length - 1 && (
+              <span class="breadcrumb-separator">/</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</div>

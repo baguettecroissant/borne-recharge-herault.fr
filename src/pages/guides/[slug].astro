@@ -1,0 +1,149 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import SchemaMarkup from '../../components/SchemaMarkup.astro';
+import config from '../../data/config.json';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+
+const title = `${guide.data.title} | Borne Recharge Hérault`;
+const description = guide.data.description;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb 
+      links={[
+        { label: 'Guides', href: '/guides/' },
+        { label: guide.data.title, href: Astro.url.pathname }
+      ]} 
+    />
+
+    <article style="max-width: 850px; margin: 30px auto 0; background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+      <!-- Article Header Image -->
+      <div style="aspect-ratio: 21/9; overflow: hidden; background-color: var(--primary-light); border-bottom: 1.5px solid var(--border-color);">
+        <img 
+          src={guide.data.image} 
+          alt={guide.data.title}
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </div>
+
+      <!-- Article Content Container -->
+      <div style="padding: 40px 30px;">
+        <div style="display: flex; gap: 10px; align-items: center; font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+          <span>🌻 Publié le {guide.data.publishDate ? new Date(guide.data.publishDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : '15 juin 2026'}</span>
+          <span>•</span>
+          <span>Par {guide.data.author}</span>
+        </div>
+
+        <h1 style="font-size: 34px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin: 0 0 25px 0; line-height: 1.25;">
+          {guide.data.title}
+        </h1>
+
+        <!-- Rendered markdown content -->
+        <div class="guide-content-rendered">
+          <Content />
+        </div>
+
+        <!-- Call to Action inside the article -->
+        <div style="margin-top: 50px; background: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 30px 24px; text-align: center;">
+          <h3 style="color: var(--primary); font-size: 19px; margin-bottom: 10px; font-weight: bold;">Besoin d'un électricien IRVE dans l'Hérault ?</h3>
+          <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 20px; line-height: 1.5;">
+            Comparez gratuitement les tarifs des installateurs locaux agréés pour la pose de votre borne. Simulation gratuite en 2 minutes.
+          </p>
+          <a href="/devis/" class="contact-btn" style="background-color: var(--accent); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3); transition: var(--transition);">
+            📋 Recevoir 3 Devis Gratuits
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="/guides/" style="font-weight: 700; font-size: 15px; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        &larr; Retour à tous les guides
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Standard styling for guide content */
+  .guide-content-rendered {
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .guide-content-rendered h2 {
+    font-size: 24px;
+    color: var(--primary);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 8px;
+  }
+  .guide-content-rendered h3 {
+    font-size: 20px;
+    color: var(--primary);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    margin-top: 25px;
+    margin-bottom: 12px;
+  }
+  .guide-content-rendered p {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+  }
+  .guide-content-rendered ul, .guide-content-rendered ol {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-left: 24px;
+  }
+  .guide-content-rendered li {
+    margin-bottom: 8px;
+  }
+  .guide-content-rendered strong {
+    color: var(--primary);
+  }
+  /* Table styling */
+  .guide-content-rendered table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 14.5px;
+  }
+  .guide-content-rendered th {
+    background-color: var(--primary);
+    color: white;
+    text-align: left;
+    padding: 12px;
+    font-weight: 600;
+  }
+  .guide-content-rendered td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .guide-content-rendered tr:nth-child(even) {
+    background-color: var(--primary-light);
+  }
+</style>

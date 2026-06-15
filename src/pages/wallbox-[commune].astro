@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const localContent = generateCommuneContent(commune, 'wallbox');
+const prices = getDynamicPrices(commune);
+const nearbyCommunes = getSmartNearbyCommunes(commune.slug, communes);
+
+const title = `Installation Wallbox à ${commune.nom} (${commune.codePostal}) | Devis Borne de recharge`;
+const description = `Quelle Wallbox installer chez vous à ${commune.nom} (34) ? Prix des bornes de 7.4 kW et 22 kW, électricité Linky, et aides de l'État.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb 
+      links={[
+        { label: 'Villes (34)', href: '/communes/' },
+        { label: `Wallbox ${commune.nom}`, href: Astro.url.pathname }
+      ]} 
+    />
+
+    <!-- Localized Hero Section -->
+    <section class="local-hero" style="background: linear-gradient(135deg, #431407 0%, var(--primary) 100%); color: white; border-radius: var(--radius-md); padding: 45px 35px; border: 1.5px solid var(--border-color); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: -50px; right: -50px; font-size: 200px; opacity: 0.03; pointer-events: none;">⚡</div>
+      <div style="max-width: 800px;">
+        <span style="background-color: var(--secondary); color: white; padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 15px;">⚡ Installation Wallbox Résidentielle (34)</span>
+        <h1 style="font-size: 34px; font-family: var(--font-heading); font-weight: 800; line-height: 1.25; margin: 0 0 15px 0; color: white;">
+          Installation Wallbox à {commune.nom} ({commune.codePostal}) — Borne de recharge
+        </h1>
+        <p style="font-size: 16px; opacity: 0.95; line-height: 1.6; margin: 0;">
+          {localContent.introParagraph}
+        </p>
+      </div>
+    </section>
+
+    <!-- Local Stats Bar -->
+    <section class="local-stats-bar" style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; text-align: center;">
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">7.4 kW</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Puissance standard villa</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">11 à 22 kW</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Puissance Triphasée</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">500 €</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Crédit d'impôt déductible</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">{prices.wallbox7kW.min}€ – {prices.wallbox7kW.max}€</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Prix posé (TTC)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layout Grid -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; margin-bottom: 50px;">
+      
+      <!-- Left Column: Localized Content -->
+      <div style="display: flex; flex-direction: column; gap: 35px;">
+        
+        <!-- Block 1: Hardware Selection -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">🔌 Sélection de matériels intelligents pour {commune.nom}</h2>
+          <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.useCaseText}
+          </p>
+          <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin: 0;">
+            {localContent.communeDataInsight} {localContent.marcheImmobilierInsight}
+          </p>
+        </div>
+
+        <!-- Block 2: Heat and Outdoor direct sun protection -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">☀️ Bornes Outdoor et gestion de la chaleur</h2>
+          <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.realEstateInsight} {localContent.specificiteElectrique}
+          </p>
+          <blockquote style="margin: 20px 0 0; padding-left: 15px; border-left: 4px solid var(--accent); font-style: italic; color: var(--text-muted); font-size: 14px; line-height: 1.5;">
+            {localContent.expertBlockquote}
+          </blockquote>
+        </div>
+
+        <!-- Block 3: Dynamic Price Table -->
+        <div>
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 20px;">🧮 Devis estimatifs d'équipements à {commune.nom}</h2>
+          <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--primary);">Prise renforcée Green'Up (3.7 kW)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Recharge lente sécurisée de nuit</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 18px; color: var(--secondary);">{prices.greenUp.min}€ – {prices.greenUp.max}€</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 2px solid var(--accent); padding: 15px 20px; border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);">
+              <div>
+                <strong style="display: block; color: var(--accent);">Wallbox Standard (7.4 kW Monophasé)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Plein complet de batterie en 6 à 8h</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 20px; color: var(--accent);">{prices.wallbox7kW.min}€ – {prices.wallbox7kW.max}€</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--primary);">Wallbox Triphasée (11 kW / 22 kW)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Recharge rapide d'appoint en 2h</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 18px; color: var(--secondary);">{prices.wallbox11kW.min}€ – {prices.wallbox22kW.max}€</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 4: Eco / Smart Charging and Linky -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">🔌 Linky, Heures Creuses, et délestage dynamique</h2>
+          <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.ecoText} {localContent.localRegulation}
+          </p>
+          <p style="font-size: 14px; color: var(--text-muted); margin: 0;">
+            Le délestage permet à la borne de réduire momentanément sa puissance de charge lorsque d'autres gros appareils (pompe à chaleur, climatisation) fonctionnent dans votre villa de {commune.nom}.
+          </p>
+        </div>
+
+        <!-- Map section -->
+        <CityMap cityName={commune.nom} zip={commune.codePostal} />
+
+      </div>
+
+      <!-- Right Column: Interactive form -->
+      <aside style="position: sticky; top: 20px;">
+        <div id="devis" style="background-color: var(--card-bg); border: 2.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px 20px; box-shadow: var(--shadow-md);">
+          <h3 style="font-size: 19px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 5px; text-align: center;">⚡ Devis Wallbox</h3>
+          <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 0; margin-bottom: 20px; line-height: 1.4;">
+            Configurez et chiffrez la pose de votre borne domestique à {commune.nom}.
+          </p>
+          <StepsForm initialZip={commune.codePostal} />
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Local FAQ -->
+    <section class="local-faq" style="background-color: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <h2 style="font-size: 28px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; text-align: center; margin-top: 0; margin-bottom: 30px;">FAQ Wallbox à {commune.nom}</h2>
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
+        {localContent.faqItems.map((item) => (
+          <details class="faq-details">
+            <summary>{item.question}</summary>
+            <div class="faq-answer">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Geographic Interlinking Section -->
+    <section class="nearby-links-section" style="border-top: 1px solid var(--border-color); padding-top: 40px;">
+      <h3 style="font-size: 20px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-bottom: 20px; text-align: center;">⚡ Wallbox dans les communes proches :</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+        {nearbyCommunes.map((c) => (
+          <a 
+            href={`/wallbox-${c.slug}/`} 
+            style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px 15px; font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; text-align: center; transition: var(--transition);"
+          >
+            {c.nom} ({c.codePostal})
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    div {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    aside {
+      position: static !important;
+    }
+  }
+  .nearby-links-section a:hover {
+    border-color: var(--secondary) !important;
+    background-color: var(--primary-light) !important;
+    color: var(--secondary) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

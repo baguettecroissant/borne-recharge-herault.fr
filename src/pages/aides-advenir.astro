@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Aides ADVENIR & Subventions Borne de Recharge Hérault (34) — 2026`;
+const description = `Le guide complet des aides financières 2026 pour financer votre borne de recharge (Wallbox) dans l'Hérault. Prime ADVENIR, crédit d'impôt, TVA 5.5%.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb links={[{ label: 'Aides ADVENIR', href: '/aides-advenir/' }]} />
+
+    <div style="margin-top: 30px; margin-bottom: 50px; text-align: center;">
+      <h1 style="font-size: 38px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">💰 Aides ADVENIR &amp; Subventions Borne de Recharge 2026</h1>
+      <p style="color: var(--text-muted); font-size: 17px; max-width: 700px; margin: 15px auto 0; line-height: 1.6;">
+        Financez l'installation de votre borne de recharge dans l'Hérault (34) grâce aux dispositifs d'aide nationale et régionale cumulables pour les particuliers.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start;">
+      
+      <!-- Main Content -->
+      <div style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px 30px; box-shadow: var(--shadow-sm);">
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 20px;">1. Le Crédit d'Impôt National de 500 €</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 15px;">
+          Destiné aux particuliers pour leur résidence principale ou secondaire, le crédit d'impôt est l'aide la plus accessible. En 2026, il est maintenu avec un barème simplifié.
+        </p>
+        <ul style="margin-bottom: 25px; padding-left: 20px; font-size: 14.5px; display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>Montant</strong> : Remboursement ou réduction de 75% du montant HT de l'équipement, plafonné à <strong>500 € par borne de recharge</strong>.</li>
+          <li><strong>Éligibilité</strong> : Tous les résidents français fiscaux (propriétaires, locataires ou occupants à titre gratuit). Sans condition de ressources.</li>
+          <li><strong>Condition obligatoire</strong> : Installation effectuée par un professionnel agréé titulaire de la certification IRVE.</li>
+        </ul>
+
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 20px;">2. La Prime ADVENIR en habitat collectif (Copropriété)</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 15px;">
+          Si vous résidez en appartement dans le 34, vous disposez du "droit à la prise" et pouvez bénéficier du programme ADVENIR pour réduire le coût technique du raccordement collectif.
+        </p>
+        <ul style="margin-bottom: 25px; padding-left: 20px; font-size: 14.5px; display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>Montant individuel</strong> : La prime finance <strong>50% du montant HT de la pose et de la borne</strong>, avec un plafond de <strong>960 € TTC</strong> par point de charge individuel.</li>
+          <li><strong>Montant collectif</strong> : ADVENIR subventionne également les infrastructures collectives votées en AG de copropriété pour desservir l'ensemble du parking (jusqu'à 50% du montant HT des travaux de colonne Enedis ou bus général).</li>
+          <li><strong>Versement</strong> : La prime est généralement déduite directement de votre devis par l'installateur agréé ADVENIR, vous évitant de faire l'avance des fonds.</li>
+        </ul>
+
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 20px;">3. La TVA réduite à 5,5%</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 20px;">
+          Les chantiers d'installation d'une borne de recharge par un électricien IRVE dans des habitations achevées depuis plus de 2 ans profitent d'un taux de TVA super-réduit de <strong>5,5%</strong> (applicable sur la borne et la main-d'œuvre).
+        </p>
+
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 20px;">4. Les accompagnements ZFE à Montpellier</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 0;">
+          Dans le cadre de l'accompagnement social de la Zone à Faibles Émissions (ZFE) de Montpellier Méditerranée Métropole, des aides indirectes (micro-crédits à taux préférentiel, sur-primes) peuvent être accordées aux foyers éligibles faisant l'acquisition d'un véhicule électrique et de son chargeur associé. Renseignez-vous auprès de votre guichet ALEC de Montpellier.
+        </p>
+      </div>
+
+      <!-- Sidebar Form Box -->
+      <aside style="background-color: var(--bg); border: 2.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px 20px; box-shadow: var(--shadow-sm); position: sticky; top: 20px;">
+        <h3 style="font-size: 18px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 12px;">Estimer mes Aides</h3>
+        <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+          Notre simulateur de devis vous met en relation avec des installateurs qualifiés IRVE de l'Hérault qui déduiront directement vos primes éligibles.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/devis/" style="background-color: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: bold; text-decoration: none; font-size: 14px; box-shadow: 0 4px 6px rgba(13, 148, 136, 0.15); transition: var(--transition);">
+            📋 Lancer le Formulaire
+          </a>
+          <a href="/tarifs/" style="background-color: var(--card-bg); color: var(--primary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: bold; text-decoration: none; font-size: 14px; transition: var(--transition);">
+            🧮 Consulter les Prix 2026
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    div {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+  }
+</style>

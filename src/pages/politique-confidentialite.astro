@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import config from '../data/config.json';
+
+const title = `Politique de Confidentialité | ${config.brandName}`;
+const description = `Découvrez notre politique de confidentialité et de gestion des données personnelles (RGPD) du site ${config.domain}.`;
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <div class="container" style="max-width: 800px; padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb links={[{ label: 'Politique de Confidentialité', href: '/politique-confidentialite/' }]} />
+
+    <div style="margin-top: 30px; background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px 30px; box-shadow: var(--shadow-sm);">
+      <h1 style="font-size: 30px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 25px;">Politique de Confidentialité</h1>
+      
+      <div style="font-size: 14.5px; color: var(--text); line-height: 1.6; display: flex; flex-direction: column; gap: 20px;">
+        <p>
+          Le site <strong>{config.domain}</strong> accorde une importance primordiale à la protection de la vie privée et des données personnelles de ses utilisateurs. Cette politique détaille la manière dont nous recueillons, traitons et protégeons les informations que vous nous transmettez lors de l'utilisation de nos formulaires.
+        </p>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">1. Collecte des données personnelles</h2>
+          <p style="margin-top: 0; margin-bottom: 10px;">
+            Lorsque vous remplissez notre formulaire de demande de devis, nous collectons les informations nécessaires à la qualification de votre projet et à votre mise en relation :
+          </p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>Nom, prénom et coordonnées (adresse postale complète, numéro de téléphone, e-mail).</li>
+            <li>Détails techniques de votre projet (type de véhicule, emplacement de stationnement, type de logement, puissance souhaitée).</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">2. Utilisation et transmission des données</h2>
+          <p style="margin: 0;">
+            Les données personnelles recueillies servent exclusivement à qualifier votre besoin d'installation de borne de recharge et à vous mettre en relation directe avec un maximum de 3 installateurs qualifiés IRVE de l'Hérault. Vos données sont transmises de manière sécurisée et ne seront jamais vendues à des tiers à des fins publicitaires.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">3. Durée de conservation des données</h2>
+          <p style="margin: 0;">
+            Nous conservons vos données personnelles uniquement pendant la durée nécessaire à l'accomplissement des finalités pour lesquelles elles ont été collectées (traitement de votre demande de devis et suivi de votre mise en relation), dans la limite de 12 mois à compter de la soumission du formulaire.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">4. Sécurité des données</h2>
+          <p style="margin: 0;">
+            Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles appropriées (chiffrement SSL, protocoles sécurisés de base de données Supabase) pour protéger vos données contre les accès non autorisés, les modifications, divulgations ou destructions accidentelles.
+          </p>
+        </div>
+
+        <div>
+          <h2 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 8px;">5. Vos droits (RGPD)</h2>
+          <p style="margin-top: 0; margin-bottom: 10px;">
+            Conformément à la réglementation européenne sur la protection des données personnelles (RGPD), vous disposez de droits complets sur vos informations :
+          </p>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>Droit d'accès et de rectification de vos données.</li>
+            <li>Droit à l'effacement permanent de vos informations de nos fichiers.</li>
+            <li>Droit de retirer votre consentement au traitement de vos données à tout moment.</li>
+          </ul>
+          <p style="margin-top: 10px; margin-bottom: 0;">
+            Pour exercer l'un de ces droits, veuillez nous contacter à l'adresse e-mail dédiée ou formuler votre demande par courrier. Nous traiterons votre demande dans un délai maximal de 30 jours.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

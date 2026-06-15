@@ -1,0 +1,233 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const localContent = generateCommuneContent(commune, 'main');
+const prices = getDynamicPrices(commune);
+const nearbyCommunes = getSmartNearbyCommunes(commune.slug, communes);
+
+const title = `Installateur Borne de Recharge à ${commune.nom} (${commune.codePostal}) | Électricien IRVE`;
+const description = `Besoin d'installer une borne de recharge à ${commune.nom} (34) ? ${localContent.introParagraph.slice(0, 150)}... Devis IRVE Gratuit.`;
+
+// Calculate local solar estimates: Hérault average ensoleillement is ~300 days/year
+// Estimation: 1 kWc produces ~1400 kWh/year in Herault. A standard 3 kWc produces ~4200 kWh.
+// If 15 kWh = 100 km, 4200 kWh = 28,000 km.
+const solarKmhProd = Math.round(4200);
+const freeSolarKm = Math.round((solarKmhProd / 15) * 100);
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb 
+      links={[
+        { label: 'Villes (34)', href: '/communes/' },
+        { label: `Installateur ${commune.nom}`, href: Astro.url.pathname }
+      ]} 
+    />
+
+    <!-- Localized Hero Section -->
+    <section class="local-hero" style="background: linear-gradient(135deg, var(--primary) 0%, #431407 100%); color: white; border-radius: var(--radius-md); padding: 45px 35px; border: 1.5px solid var(--border-color); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: -50px; right: -50px; font-size: 200px; opacity: 0.03; pointer-events: none;">🌻</div>
+      <div style="max-width: 800px;">
+        <span style="background-color: var(--accent); color: white; padding: 5px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 15px;">🌻 Hérault (34) — Service IRVE Local</span>
+        <h1 style="font-size: 34px; font-family: var(--font-heading); font-weight: 800; line-height: 1.25; margin: 0 0 15px 0; color: white;">
+          Installateur Borne de Recharge à {commune.nom} ({commune.codePostal}) — Électricien IRVE
+        </h1>
+        <p style="font-size: 16px; opacity: 0.95; line-height: 1.6; margin: 0;">
+          {localContent.introParagraph}
+        </p>
+      </div>
+    </section>
+
+    <!-- Local Stats Bar -->
+    <section class="local-stats-bar" style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 40px;">
+      <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; text-align: center;">
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">{commune.vehiculesElectriques || '120'} VE</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Roulant à {commune.nom}</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">+{commune.croissanceVE || '38'}% / an</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Croissance Électromobilité</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">{commune.logementsMaison || '60'}%</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Logements individuels (maisons)</span>
+        </div>
+        <div>
+          <span style="display: block; font-family: var(--font-heading); font-weight: 800; font-size: 22px; color: var(--secondary);">{prices.wallbox7kW.min}€ – {prices.wallbox7kW.max}€</span>
+          <span style="font-size: 12.5px; color: var(--primary); font-weight: 700;">Coût moyen pose Wallbox</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layout Grid -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; align-items: start; margin-bottom: 50px;">
+      
+      <!-- Left Column: Localized Content -->
+      <div style="display: flex; flex-direction: column; gap: 35px;">
+        
+        <!-- Block 1: Local Context -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">🚗 Électromobilité et Habitat à {commune.nom}</h2>
+          <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.profilCommuneInsight} {localContent.densiteAnalysis}
+          </p>
+          <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin: 0;">
+            {localContent.mobiliteContext} {localContent.realEstateInsight}
+          </p>
+        </div>
+
+        <!-- Block 2: Solare / Climate Badge -->
+        <div style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+          <div style="font-size: 48px; flex-shrink: 0;">☀️</div>
+          <div>
+            <h3 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 6px;">Badge Solaire {commune.nom}</h3>
+            <p style="font-size: 14px; color: var(--text); line-height: 1.5; margin: 0;">
+              Production solaire estimée : <strong>{solarKmhProd} kWh / an</strong> (sur base installation 3 kWc).<br />
+              Recharge gratuite : jusqu'à <strong>{freeSolarKm.toLocaleString()} km / an</strong> d'autonomie injectés gratuitement grâce à l'autoconsommation méditerranéenne.
+            </p>
+          </div>
+        </div>
+
+        <!-- Block 3: Prices & Comparateur -->
+        <div>
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 20px;">🧮 Grille tarifaire estimative à {commune.nom}</h2>
+          <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--primary);">Prise Green'Up (3.7 kW)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Hybrides &amp; charges lentes nocturnes</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 18px; color: var(--secondary);">{prices.greenUp.min}€ – {prices.greenUp.max}€</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 2px solid var(--accent); padding: 15px 20px; border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);">
+              <div>
+                <strong style="display: block; color: var(--accent);">Wallbox Monophasée (7.4 kW)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Standard Pavillonnaire — Recommandé</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 20px; color: var(--accent);">{prices.wallbox7kW.min}€ – {prices.wallbox7kW.max}€</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: var(--radius-sm);">
+              <div>
+                <strong style="display: block; color: var(--primary);">Wallbox Triphasée (11 kW / 22 kW)</strong>
+                <span style="font-size: 12.5px; color: var(--text-muted);">Charges rapides en 2 à 4 heures</span>
+              </div>
+              <strong style="font-family: var(--font-heading); font-size: 18px; color: var(--secondary);">{prices.wallbox11kW.min}€ – {prices.wallbox22kW.max}€</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 4: Anecdote & Patrimoine -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">🌻 Climat et Installation Locale</h2>
+          <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.anecdotePatrimoine}
+          </p>
+          <blockquote style="margin: 20px 0 0; padding-left: 15px; border-left: 4px solid var(--accent); font-style: italic; color: var(--text-muted); font-size: 14px; line-height: 1.5;">
+            {localContent.expertBlockquote}
+          </blockquote>
+        </div>
+
+        <!-- Block 5: Local Regulations -->
+        <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-size: 22px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">🛡️ Réglementations et Normes IRVE à {commune.nom}</h2>
+          <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin: 0 0 15px 0;">
+            {localContent.localRegulation} {localContent.specificiteElectrique}
+          </p>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin: 0;">
+            Conseil local : Rapprochez-vous de {localContent.localAgencyName} ({localContent.distanceMontpellierContext}) pour auditer votre éligibilité aux aides locales complémentaires du 34.
+          </p>
+        </div>
+
+        <!-- Map section -->
+        <CityMap cityName={commune.nom} zip={commune.codePostal} />
+
+      </div>
+
+      <!-- Right Column: Interactive multi-step form -->
+      <aside style="position: sticky; top: 20px;">
+        <div id="devis" style="background-color: var(--card-bg); border: 2.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px 20px; box-shadow: var(--shadow-md);">
+          <h3 style="font-size: 19px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 5px; text-align: center;">📋 Demande de Devis Gratuite</h3>
+          <p style="font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 0; margin-bottom: 20px; line-height: 1.4;">
+            Électriciens IRVE qualifiés à {commune.nom}. Obtenez 3 devis comparatifs sous 48h.
+          </p>
+          <StepsForm initialZip={commune.codePostal} />
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Local FAQ -->
+    <section class="local-faq" style="background-color: var(--bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <h2 style="font-size: 28px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; text-align: center; margin-top: 0; margin-bottom: 30px;">FAQ Borne de Recharge à {commune.nom}</h2>
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px;">
+        {localContent.faqItems.map((item) => (
+          <details class="faq-details">
+            <summary>{item.question}</summary>
+            <div class="faq-answer">
+              <p>{item.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Geographic Interlinking Section -->
+    <section class="nearby-links-section" style="border-top: 1px solid var(--border-color); padding-top: 40px;">
+      <h3 style="font-size: 20px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-bottom: 20px; text-align: center;">📍 Trouver un installateur IRVE à proximité :</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+        {nearbyCommunes.map((c) => (
+          <a 
+            href={`/installateur-borne-recharge-${c.slug}/`} 
+            style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px 15px; font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; text-align: center; transition: var(--transition);"
+          >
+            {c.nom} ({c.codePostal})
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    div {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    aside {
+      position: static !important;
+    }
+  }
+  .nearby-links-section a:hover {
+    border-color: var(--secondary) !important;
+    background-color: var(--primary-light) !important;
+    color: var(--secondary) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+</style>

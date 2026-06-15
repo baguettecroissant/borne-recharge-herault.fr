@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Tarifs Installation Borne de Recharge Hérault (34) — Prix 2026`;
+const description = `Découvrez la grille complète des tarifs d'installation de bornes de recharge (wallbox) et prises renforcées dans le 34. Estimez vos aides et demandez un devis gratuit.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb links={[{ label: 'Tarifs', href: '/tarifs/' }]} />
+
+    <div style="margin-top: 30px; margin-bottom: 50px; text-align: center;">
+      <h1 style="font-size: 38px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">🧮 Prix &amp; Tarifs Installation Borne de Recharge (34)</h1>
+      <p style="color: var(--text-muted); font-size: 17px; max-width: 700px; margin: 15px auto 0; line-height: 1.6;">
+        Combien coûte la pose d'une Wallbox dans l'Hérault en 2026 ? Retrouvez nos estimations transparentes, matériel et main-d'œuvre inclus, avant et après déduction des aides publiques.
+      </p>
+    </div>
+
+    <!-- Pricing Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px;">
+      
+      <!-- Option 1: GreenUp -->
+      <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: var(--transition);">
+        <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Entrée de gamme</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Prise Prise renforcée Green'Up</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          400 € – 700 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Standard)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          Idéal pour les recharges de nuit lentes pour véhicules hybrides rechargeables ou petites citadines électriques effectuant de courts trajets au quotidien.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Recharge sécurisée à 3.7 kW (16A)</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Temps de charge : 12h-15h</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Pose de disjoncteur différentiel type F</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> TVA réduite à 5,5% applicable</li>
+        </ul>
+        <a href="/devis/" style="background: var(--primary-light); color: var(--primary); border: 1.5px solid var(--border-color); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: 600; text-decoration: none; transition: var(--transition);">Demander un Devis</a>
+      </div>
+
+      <!-- Option 2: Wallbox 7.4kW -->
+      <div style="background: var(--card-bg); border: 2.5px solid var(--accent); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-md); position: relative; transition: var(--transition);">
+        <div style="position: absolute; top: 15px; right: 15px; background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;">Le Best-Seller</div>
+        <span style="font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase;">Recommandé Villa</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Wallbox 7.4 kW Monophasé</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          1 200 € – 1 800 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Hors crédit d'impôt)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          La solution standard la plus rapide pour maison individuelle dans l'Hérault. Permet une recharge complète et sécurisée en l'espace d'une nuit.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Recharge rapide à 7.4 kW (32A)</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Temps de charge : 6h-8h</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Éligible au crédit d'impôt de 500 €</li>
+          <li><span style="color: var(--accent); font-weight: bold;">✓</span> Raccordement Linky &amp; Délestage dynamique</li>
+        </ul>
+        <a href="/devis/" style="background: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: 600; text-decoration: none; transition: var(--transition);">Choisir cette puissance</a>
+      </div>
+
+      <!-- Option 3: Wallbox Triphasé -->
+      <div style="background: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 35px 25px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: var(--transition);">
+        <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Professionnels &amp; Grandes Autonomies</span>
+        <h2 style="font-size: 22px; color: var(--primary); margin: 5px 0 15px 0; font-family: var(--font-heading); font-weight: 700;">Wallbox 11 / 22 kW Triphasé</h2>
+        <div style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary-light); padding-bottom: 15px;">
+          1 500 € – 3 500 € <span style="display: block; font-size: 11px; color: var(--text-muted); font-family: var(--font-body); font-weight: normal; margin-top: 2px;">TTC posé (Chantier Triphasé)</span>
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">
+          Conçu pour recharger à puissance maximale les grands SUV et berlines électriques, ou pour les résidences disposant déjà d'un raccordement triphasé.
+        </p>
+        <ul style="list-style: none; padding: 0; margin: 0 0 25px; display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Recharge ultra-rapide à 11 kW / 22 kW</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Temps de charge : 1h-4h</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Éligible au crédit d'impôt de 500 €</li>
+          <li><span style="color: var(--secondary); font-weight: bold;">✓</span> Adaptation du compteur Enedis incluse</li>
+        </ul>
+        <a href="/devis/" style="background: var(--primary-light); color: var(--primary); border: 1.5px solid var(--border-color); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-weight: 600; text-decoration: none; transition: var(--transition);">Demander un Devis</a>
+      </div>
+    </div>
+
+    <!-- Cost breakdown analysis -->
+    <section style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <h2 style="font-size: 26px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 20px;">Quels sont les facteurs qui font varier le coût d'installation ?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">1. La distance de câblage</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">
+            Le câble en cuivre reliant votre tableau de protections à votre borne représente une part notable du prix. Plus le garage ou l'emplacement extérieur est éloigné du tableau de répartition principal, plus le coût augmente (généralement 10 à 25 € HT par mètre supplémentaire).
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">2. L'état du tableau électrique</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">
+            Installer une borne impose d'intégrer des disjoncteurs et différentiels dédiés dans votre tableau de protections. Si votre tableau manque d'espace libre ou s'il n'est plus conforme aux normes actuelles (NF C 15-100), des travaux de mise aux normes ou la pose d'un coffret secondaire seront nécessaires.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 17px; color: var(--primary); font-weight: bold; margin-top: 0;">3. Génie civil et percements</h3>
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 0;">
+            Si le câble doit traverser une dalle de béton, être enterré dans une tranchée à travers votre jardin languedocien ou courir le long de façades complexes, le temps de main-d'œuvre augmente logiquement la facture finale.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subsidies calculation section -->
+    <section style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; margin-bottom: 50px;">
+      <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1 1 350px;">
+          <h2 style="font-size: 26px; color: var(--primary); font-family: var(--font-heading); font-weight: 800; margin-top: 0; margin-bottom: 15px;">Simulateur d'Aides : Quel est votre reste à charge ?</h2>
+          <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 0;">
+            En cumulant le crédit d'impôt national de <strong>500 €</strong> (reconduit en 2026) et la TVA réduite à <strong>5,5%</strong>, le reste à charge pour une installation dans votre villa individuelle est largement réduit. En copropriété, s'y ajoute la prime <strong>ADVENIR</strong> couvrant 50% de vos frais de pose (jusqu'à 960 € remboursés).
+          </p>
+        </div>
+        <div style="flex: 1 1 300px; background: white; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-size: 16px; font-weight: bold; margin-top: 0; color: var(--primary); margin-bottom: 15px;">Exemple concret (Borne de 7.4 kW)</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+            <div style="display: flex; justify-content: space-between;"><span>Prix moyen posé TTC :</span><strong>1 450 €</strong></div>
+            <div style="display: flex; justify-content: space-between; color: var(--accent);"><span>Crédit d'impôt 2026 :</span><strong>-500 €</strong></div>
+            <div style="display: flex; justify-content: space-between; border-bottom: 1.5px solid var(--primary-light); padding-bottom: 8px;"><span>TVA 5,5% incluse :</span><strong>Économie déjà appliquée</strong></div>
+            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--primary); padding-top: 8px;"><span>Reste à charge estimé :</span><span>950 €</span></div>
+          </div>
+          <a href="/devis/" style="display: block; margin-top: 20px; background-color: var(--secondary); color: white; text-align: center; padding: 10px; border-radius: var(--radius-sm); font-weight: bold; text-decoration: none; font-size: 13.5px; transition: var(--transition);">📋 Demander mes devis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom FAQ link -->
+    <div style="text-align: center;">
+      <p style="color: var(--text-muted); font-size: 15px;">
+        Des questions sur le prix de l'électricité ou les abonnements Linky ? <a href="/guide-installation/" style="color: var(--secondary); font-weight: bold;">Consultez notre Guide Technique</a> ou <a href="/guides/" style="color: var(--secondary); font-weight: bold;">lisez nos articles &rarr;</a>
+      </p>
+    </div>
+  </div>
+</Layout>

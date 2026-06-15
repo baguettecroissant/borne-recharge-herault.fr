@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Panneaux Solaires & Borne de Recharge Hérault (34) | Recharge Gratuite`;
+const description = `Découvrez comment associer panneaux solaires photovoltaïques et borne de recharge intelligente dans l'Hérault (34). Optimisez votre autoconsommation.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb links={[{ label: 'Solaire & Wallbox', href: '/solaire-wallbox/' }]} />
+
+    <div style="margin-top: 30px; margin-bottom: 50px; text-align: center;">
+      <h1 style="font-size: 38px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">☀️ Panneaux Solaires &amp; Borne de Recharge dans le 34</h1>
+      <p style="color: var(--text-muted); font-size: 17px; max-width: 700px; margin: 15px auto 0; line-height: 1.6;">
+        Profitez de l'ensoleillement de l'Hérault (300 jours de soleil par an) pour faire le plein de votre voiture électrique gratuitement grâce à l'autoconsommation.
+      </p>
+    </div>
+
+    <div style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 50px;">
+      <div style="max-width: 800px; margin: 0 auto;">
+        
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">Le combo gagnant : Solaire + Wallbox Connectée</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 20px;">
+          L'Hérault est le département idéal pour installer des panneaux solaires. Cependant, sans système intelligent, recharger son véhicule électrique en journée peut consommer plus d'énergie que le toit n'en produit, obligeant à acheter de l'électricité sur le réseau Enedis.
+        </p>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 25px;">
+          Une <strong>Wallbox intelligente avec pilotage solaire</strong> (solar tracking ou eco-smart) résout ce problème. Elle s'adapte en temps réel à votre production photovoltaïque et n'envoie dans la voiture que les surplus solaires qui seraient autrement réinjectés gratuitement ou vendus à bas prix sur le réseau.
+        </p>
+
+        <!-- Dynamic solar modes grid -->
+        <h3 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 20px;">Les 3 modes de charge intelligents :</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 35px;">
+          <div style="background: var(--bg); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm);">
+            <div style="font-size: 24px; margin-bottom: 8px;">☀️ 100% Éco (Solaire pur)</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45; margin: 0;">
+              La borne ne s'active que si vos panneaux solaires génèrent un excédent d'énergie. Si un nuage passe, la puissance s'ajuste ou s'arrête instantanément. 0% d'achat réseau.
+            </p>
+          </div>
+          <div style="background: var(--bg); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm);">
+            <div style="font-size: 24px; margin-bottom: 8px;">⛅ Mode Éco Mixte</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45; margin: 0;">
+              La borne garantit un niveau de charge minimal en complétant avec le réseau si nécessaire, tout en injectant en priorité le moindre kWh de surplus solaire produit.
+            </p>
+          </div>
+          <div style="background: var(--bg); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-sm);">
+            <div style="font-size: 24px; margin-bottom: 8px;">⚡ Mode Rapide (Fast)</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.45; margin: 0;">
+              La borne fonctionne à sa puissance nominale maximale (7.4 kW ou 22 kW) en puisant sans limite sur vos panneaux et sur le réseau pour charger le véhicule le plus vite possible.
+            </p>
+          </div>
+        </div>
+
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 15px;">Comment se déroule le chantier ?</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 20px;">
+          La mise en place de cette solution nécessite l'intervention conjointe d'un spécialiste RGE solaire et d'un installateur certifié IRVE. L'électricien installe un tore de mesure ou un compteur communicant au niveau de votre tableau principal pour permettre à la wallbox de connaître le flux d'énergie de votre villa.
+        </p>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 0;">
+          Les subventions nationales (crédit d'impôt de 500 € pour la borne, prime à l'autoconsommation pour le solaire) permettent d'alléger considérablement l'investissement initial, le rendant rentable en quelques années seulement dans un département à fort taux d'ensoleillement comme le nôtre.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div style="text-align: center;">
+      <h3 style="color: var(--primary); font-size: 20px; font-weight: bold; margin-bottom: 15px;">Intéressé par le combo Solaire + Borne dans l'Hérault ?</h3>
+      <a href="/devis/" class="contact-btn" style="background-color: var(--accent); color: white; border: none; padding: 14px 36px; border-radius: 50px; font-weight: 700; font-size: 16px; text-decoration: none; display: inline-block; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); transition: var(--transition);">
+        📋 Demander des Devis Gratuits
+      </a>
+    </div>
+  </div>
+</Layout>

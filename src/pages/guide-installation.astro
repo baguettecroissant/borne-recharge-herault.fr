@@ -1,0 +1,110 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Guide Technique Installation Borne de Recharge Hérault | Normes IRVE`;
+const description = `Découvrez les règles d'installation pour bornes de recharge et prises renforcées. Câblage, disjoncteurs, norme NF C 15-100, protections IRVE indispensables.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
+    <Breadcrumb links={[{ label: 'Guide Technique', href: '/guide-installation/' }]} />
+
+    <div style="margin-top: 30px; margin-bottom: 50px; text-align: center;">
+      <h1 style="font-size: 38px; color: var(--primary); font-family: var(--font-heading); font-weight: 800;">🛠️ Guide d'Installation Technique &amp; Normes IRVE</h1>
+      <p style="color: var(--text-muted); font-size: 17px; max-width: 700px; margin: 15px auto 0; line-height: 1.6;">
+        Comprendre les aspects techniques, les protections requises et les exigences de la norme NF C 15-100 pour la pose de votre Wallbox dans l'Hérault.
+      </p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 40px; align-items: start;">
+      
+      <!-- Main Content Block -->
+      <div style="background-color: var(--card-bg); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 40px 30px; box-shadow: var(--shadow-sm);">
+        
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-top: 0; margin-bottom: 15px;">La norme NF C 15-100 et la sécurité électrique</h2>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 20px;">
+          L'installation d'une borne de recharge de plus de 3.7 kW n'est pas un raccordement électrique classique. Il s'agit d'un point d'utilisation à puissance maximale continue pendant plusieurs heures. Les risques de surchauffe et d'incendie imposent de respecter scrupuleusement la norme <strong>NF C 15-100</strong> et les règles de l'art IRVE.
+        </p>
+
+        <h3 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 12px;">1. Section de câblage obligatoire</h3>
+        <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 20px;">
+          Pour une borne de 7.4 kW en monophasé (intensité de 32A), la section minimale des conducteurs en cuivre doit être de <strong>10 mm²</strong> pour une longueur de câble inférieure à 30 mètres. Au-delà, ou en cas de triphasé à puissance supérieure, le technicien devra calculer la chute de tension et potentiellement opter pour du <strong>16 mm²</strong> afin de garantir un fonctionnement sans surchauffe.
+        </p>
+
+        <h3 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 12px;">2. Protections électriques nécessaires dans le tableau</h3>
+        <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 15px;">
+          Votre tableau de répartition principal situé dans votre logement dans l'Hérault (34) doit accueillir des modules de sécurité dédiés et exclusifs à la ligne de charge :
+        </p>
+        <ul style="margin-bottom: 25px; padding-left: 20px; font-size: 14.5px; display: flex; flex-direction: column; gap: 8px;">
+          <li><strong>Interrupteur différentiel de type A-EV</strong> (ou type B ou F) : Capable de détecter les fuites de courant alternatif mais aussi de courant continu générées par la batterie du véhicule. Sensibilité réglementaire de 30mA.</li>
+          <li><strong>Disjoncteur divisionnaire courbe C</strong> : Dimensionné en 40A pour une borne monophasée de 7.4 kW (32A) afin d'éviter tout déclenchement intempestif dû au courant d'appel.</li>
+          <li><strong>Déclencheur à émission de tension (bobine MX)</strong> : Raccordé sur l'alimentation de la borne et relié au bouton d'arrêt d'urgence si la borne est située en extérieur ou en parking collectif.</li>
+        </ul>
+
+        <h3 style="font-size: 18px; color: var(--primary); font-weight: bold; margin-bottom: 12px;">3. Mesure de la résistance de prise de terre</h3>
+        <p style="font-size: 14.5px; color: var(--text); line-height: 1.6; margin-bottom: 25px;">
+          C'est le critère de blocage technique le plus courant. Les voitures électriques effectuent un test de terre automatique avant de démarrer la charge. Si la résistance mesurée est supérieure à <strong>100 ohms</strong> (exigence de la norme NF C 15-100), la charge refusera de démarrer. Le technicien IRVE utilise un mesureur de boucle de terre et devra, si besoin, poser des piquets de terre supplémentaires dans le sol de votre villa.
+        </p>
+
+        <h2 style="font-size: 24px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 15px;">Les étapes clés de votre projet IRVE dans le 34</h2>
+        <div style="display: flex; flex-direction: column; gap: 18px; font-size: 14.5px;">
+          <div style="display: flex; gap: 15px;">
+            <span style="background-color: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</span>
+            <div>
+              <strong>Visite technique préalable</strong> : L'installateur étudie la puissance disponible sur votre abonnement Linky et définit le chemin de câble idéal.
+            </div>
+          </div>
+          <div style="display: flex; gap: 15px;">
+            <span style="background-color: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</span>
+            <div>
+              <strong>Tirage de la ligne dédiée</strong> : Passage des câbles sous gaine ou goulotte de protection, avec percements si nécessaire pour relier le tableau à la zone de stationnement.
+            </div>
+          </div>
+          <div style="display: flex; gap: 15px;">
+            <span style="background-color: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</span>
+            <div>
+              <strong>Raccordement et configuration</strong> : Pose des protections de tableau, branchement de la borne, et réglage du Smart Charging (délestage dynamique TIC).
+            </div>
+          </div>
+          <div style="display: flex; gap: 15px;">
+            <span style="background-color: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</span>
+            <div>
+              <strong>Tests et mise en service</strong> : Simulation de charge, mesure de terre et remise du certificat Consuel / IRVE indispensable pour vos assurances.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Info -->
+      <aside style="background-color: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px 20px;">
+        <h3 style="font-size: 16px; color: var(--primary); font-weight: bold; margin-top: 0; margin-bottom: 12px;">Besoin d'un installateur certifié IRVE ?</h3>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-bottom: 20px;">
+          Faire poser sa borne par un artisan certifié IRVE est obligatoire pour valider la garantie constructeur de votre véhicule et obtenir les aides fiscales.
+        </p>
+        <a href="/devis/" style="display: block; background-color: var(--secondary); color: white; text-align: center; padding: 12px; border-radius: var(--radius-sm); font-weight: bold; text-decoration: none; font-size: 13.5px; transition: var(--transition);">
+          📋 Obtenir un Devis Gratuit
+        </a>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  @media (max-width: 992px) {
+    div {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+  }
+</style>

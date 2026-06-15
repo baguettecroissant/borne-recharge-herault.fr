@@ -1,0 +1,16 @@
+{
+  "name": "Borne Recharge Hérault",
+  "short_name": "Borne 34",
+  "description": "Installation de borne de recharge (Wallbox) et de prise renforcée dans l'Hérault (34). Électriciens certifiés IRVE. Devis Gratuits.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBEB",
+  "theme_color": "#0D9488",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
