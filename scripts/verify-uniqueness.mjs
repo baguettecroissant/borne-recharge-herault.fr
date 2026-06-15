@@ -72,6 +72,14 @@ for (const category of CATEGORIES) {
       getVariantIndex(c.slug, catOffset + 80, POOL_SIZES.logisticsAlert),
       getVariantIndex(c.slug, catOffset + 85, POOL_SIZES.pricesContext),
       getVariantIndex(c.slug, catOffset + 90, POOL_SIZES.tableIntro),
+      // New variation fields
+      getVariantIndex(c.slug, catOffset + 110, 8), // localRegulation
+      getVariantIndex(c.slug, catOffset + 120, 8), // mobiliteContext
+      getVariantIndex(c.slug, catOffset + 130, 8), // specificiteElectrique
+      getVariantIndex(c.slug, catOffset + 140, 8), // savingsEstimate
+      getVariantIndex(c.slug, catOffset + 150, 6), // marcheImmobilierInsight
+      getVariantIndex(c.slug, catOffset + 160, 6), // intercommunaliteContext
+      getVariantIndex(c.slug, catOffset + 170, 6), // profilCommuneInsight
       c.distanceMontpellier <= 5 ? 'core' : c.distanceMontpellier <= 15 ? 'inner' : c.distanceMontpellier <= 35 ? 'mid' : 'outer',
       selectRotatedItems(POOL_SIZES.faqCount, c.slug, catOffset, POOL_SIZES.faqSelect).sort().join(',')
     ].join('|');

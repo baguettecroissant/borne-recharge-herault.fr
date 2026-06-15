@@ -31,6 +31,12 @@ const description = `Vous résidez en appartement à ${commune.nom} (34) ? Guide
     pageUrl={Astro.url.href}
     pageTitle={title}
     pageDescription={description}
+    faqItems={localContent.faqItems}
+    communeName={commune.nom}
+    breadcrumbItems={[
+      { label: 'Villes (34)', href: '/communes/' },
+      { label: `Copropriété ${commune.nom}`, href: Astro.url.pathname }
+    ]}
   />
 
   <div class="container" style="padding-top: 40px; padding-bottom: 70px;">
@@ -162,6 +168,19 @@ const description = `Vous résidez en appartement à ${commune.nom} (34) ? Guide
             </div>
           </details>
         ))}
+      </div>
+    </section>
+
+    <!-- Cross-linking between page types for same commune -->
+    <section style="margin-top: 40px; margin-bottom: 40px;">
+      <h3 style="font-size: 18px; color: var(--primary); font-family: var(--font-heading); font-weight: 700; margin-bottom: 15px; text-align: center;">📄 Autres services à {commune.nom} :</h3>
+      <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <a href={`/installateur-borne-recharge-${commune.slug}/`} style="background: var(--card-bg); border: 1.5px solid var(--primary); border-radius: var(--radius-sm); padding: 12px 20px; font-size: 14px; font-weight: 700; color: var(--primary); text-decoration: none; transition: var(--transition);">
+          🔌 Installateur IRVE à {commune.nom}
+        </a>
+        <a href={`/wallbox-${commune.slug}/`} style="background: var(--card-bg); border: 1.5px solid var(--secondary); border-radius: var(--radius-sm); padding: 12px 20px; font-size: 14px; font-weight: 700; color: var(--secondary); text-decoration: none; transition: var(--transition);">
+          ⚡ Wallbox à {commune.nom}
+        </a>
       </div>
     </section>
 

@@ -395,7 +395,7 @@ const USE_CASE_POOLS: Record<string, string[]> = {
     "La pose d'une borne de recharge dans un garage collectif fermé (box) exige des dispositifs de sécurité anti-incendie spécifiques et un raccordement conforme aux directives Promotelec.",
     "Le syndic de votre copropriété à {VILLE} ne peut pas rejeter votre projet d'installation de borne individuelle sans motif légitime et sérieux, comme l'existence d'une solution de recharge collective déjà programmée.",
     "Les systèmes de recharge collective en copropriété permettent de gérer la répartition de la puissance électrique totale disponible entre les voitures connectées afin d'éviter tout surcoût d'abonnement général.",
-    "En copropriété à {VILLE}, le raccordement individuel avec sous-compteur MID is the quickest way to execute: it only requires notifying the syndic and does not require a vote at the general assembly.",
+    "En copropriété à {VILLE}, le raccordement individuel avec sous-compteur MID constitue la solution la plus rapide à mettre en œuvre : il nécessite uniquement de notifier le syndic par LRAR et ne requiert pas de vote en assemblée générale.",
     "L'installation d'une colonne Enedis horizontale dans votre copropriété à {VILLE} permet à chaque résident d'avoir son propre compteur Linky dédié à la recharge, éliminant toute question de répartition des charges.",
     "Nos techniciens IRVE accompagnent les conseils syndicaux de {VILLE} pour présenter en assemblée générale un dossier technique complet incluant le schéma d'implantation et le chiffrage détaillé des travaux.",
     "La pose d'une borne sur une place de parking extérieure en copropriété à {VILLE} requiert un coffret d'alimentation étanche (IP65) et un dispositif de coupure d'urgence accessible depuis les parties communes.",
@@ -741,6 +741,112 @@ const FAQ_POOL_ANSWERS = [
   "Pour les locations saisonnières sur le littoral (Agde, Sète, Palavas), proposer une borne IRVE augmente vos réservations. Nous recommandons des bornes dotées de lecteurs RFID ou d'activation via application mobile, vous permettant de réserver l'accès aux seuls locataires et de mesurer précisément l'énergie consommée pour facturation."
 ];
 
+// =====================================================================
+// VARIATION FUNCTIONS — Replace previously static text with pools
+// Each function selects from 6-8 variants based on commune slug hash
+// to ensure zero duplicate text across communes
+// =====================================================================
+
+function getLocalRegulation(commune: Commune, catOffset: number): string {
+  const variants = [
+    `À ${commune.nom}, toute installation de borne wallbox d'une puissance supérieure à 3.7 kW doit être réalisée par un technicien agréé IRVE pour garantir la conformité à la norme NF C 15-100 et l'éligibilité aux aides de l'État.`,
+    `La réglementation en vigueur à ${commune.nom} impose l'intervention d'un électricien qualifié IRVE pour toute pose de borne de recharge dépassant 3.7 kW. Sans cette certification, le crédit d'impôt et la TVA réduite ne sont pas applicables.`,
+    `Pour les résidents de ${commune.nom}, la norme NF C 15-100 exige que l'installation d'un point de charge de plus de 3.7 kW soit effectuée par un professionnel titulaire de la qualification IRVE, condition indispensable pour bénéficier des subventions publiques.`,
+    `Le cadre réglementaire applicable à ${commune.nom} prévoit qu'un installateur certifié IRVE doit obligatoirement intervenir pour raccorder une borne de recharge murale. Cette obligation protège à la fois la sécurité de votre habitat et votre éligibilité aux dispositifs d'aide financière.`,
+    `À ${commune.nom}, le respect de la norme NF C 15-100 et du décret de 2017 impose le recours à un artisan électricien qualifié IRVE pour l'installation de votre borne résidentielle. C'est la condition sine qua non pour cumuler le crédit d'impôt de 500 € et la TVA à 5,5%.`,
+    `Les installations de bornes de recharge à ${commune.nom} sont soumises aux exigences de la norme NF C 15-100 et au contrôle Consuel. Seul un professionnel IRVE agréé peut délivrer le certificat de conformité ouvrant droit aux avantages fiscaux nationaux.`,
+    `La législation française applicable à ${commune.nom} rend obligatoire la certification IRVE de l'installateur pour toute borne de plus de 3.7 kW. Ce cadre garantit la sécurité électrique et conditionne l'accès aux aides ADVENIR et au crédit d'impôt.`,
+    `Pour tout projet de borne de recharge à ${commune.nom}, la qualification IRVE de l'électricien est un prérequis réglementaire non négociable. Elle assure la conformité technique de l'installation et ouvre les portes des subventions nationales et régionales.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 110, variants.length)];
+}
+
+function getMobiliteContext(commune: Commune, catOffset: number): string {
+  const variants = [
+    `Pour les conducteurs de ${commune.nom}, la transition électrique s'accélère sous l'effet conjugué des restrictions d'accès ZFE dans l'aire montpelliéraine et de l'augmentation générale des coûts des carburants fossiles.`,
+    `L'électromobilité gagne du terrain à ${commune.nom} où de plus en plus de ménages optent pour le véhicule électrique, motivés par les économies substantielles sur le budget carburant et l'élargissement progressif des zones à faibles émissions.`,
+    `À ${commune.nom}, le passage à l'électrique devient un choix de bon sens économique : entre la hausse du prix des carburants et les restrictions de circulation imposées par la ZFE de Montpellier, charger chez soi est la solution la plus confortable.`,
+    `Les habitants de ${commune.nom} sont de plus en plus nombreux à adopter la voiture électrique. L'implantation d'une borne résidentielle anticipe les évolutions réglementaires et garantit une mobilité quotidienne sans contrainte ni file d'attente aux bornes publiques.`,
+    `La mobilité électrique progresse rapidement à ${commune.nom}, portée par les incitations fiscales de l'État, la baisse du coût des véhicules électriques et l'extension des zones à circulation restreinte dans le département de l'Hérault.`,
+    `L'évolution du parc automobile à ${commune.nom} suit la tendance nationale : les immatriculations de véhicules électriques et hybrides rechargeables explosent, rendant l'installation d'une borne privée de plus en plus pertinente pour les foyers du département.`,
+    `À ${commune.nom}, disposer d'une borne de recharge à domicile est devenu un investissement stratégique face à la montée en puissance de la ZFE métropolitaine et à la volatilité des prix à la pompe qui pèse sur le budget transport des ménages.`,
+    `Les conducteurs de ${commune.nom} qui franchissent le pas de l'électrique constatent une réduction immédiate de leurs dépenses de mobilité, amplifiée par la recharge nocturne en heures creuses sur leur propre borne résidentielle IRVE.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 120, variants.length)];
+}
+
+function getSpecificiteElectrique(commune: Commune, catOffset: number): string {
+  const variants = [
+    `Les électriciens IRVE intervenant sur ${commune.nom} configurent des disjoncteurs divisionnaires courbe C de 40A et des interrupteurs différentiels 30mA dédiés de type A-EV contre les fuites de courant continu.`,
+    `Chaque installation de borne à ${commune.nom} s'accompagne d'un dimensionnement rigoureux des protections : disjoncteur courbe C calibré selon la puissance, différentiel de type A-EV et vérification de la mise à la terre.`,
+    `Les artisans IRVE du réseau intervenant à ${commune.nom} installent systématiquement un circuit dédié avec protection différentielle 30mA de type A-EV, conformément aux exigences de la norme NF C 15-100 pour les points de charge.`,
+    `À ${commune.nom}, nos techniciens certifiés s'assurent que le tableau électrique dispose d'un emplacement libre pour le disjoncteur divisionnaire de la borne et intègrent un différentiel de type A-EV spécifique à la charge de véhicule électrique.`,
+    `Les installations de bornes réalisées à ${commune.nom} comprennent obligatoirement un circuit électrique dédié avec disjoncteur de calibre adapté (32A ou 40A selon la puissance) et une protection différentielle de type A-EV pour la détection des courants de fuite continus.`,
+    `Pour les logements de ${commune.nom}, nos électriciens IRVE vérifient la puissance de l'abonnement Enedis existant et dimensionnent les protections modulaires (disjoncteur C40A, différentiel A-EV 30mA) pour un fonctionnement parfaitement sécurisé de la borne.`,
+    `Sur chaque chantier à ${commune.nom}, l'installateur IRVE pose un circuit dédié protégé par un disjoncteur courbe C et un interrupteur différentiel de type A-EV, seul dispositif homologué pour isoler les composantes continues générées lors de la charge d'un véhicule.`,
+    `La sécurité électrique à ${commune.nom} est notre priorité : nos installateurs configurent systématiquement un disjoncteur courbe C dédié, un différentiel A-EV 30mA et une vérification de la résistance de terre avant la mise en service de votre borne.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 130, variants.length)];
+}
+
+function getSavingsEstimate(commune: Commune, catOffset: number): string {
+  const variants = [
+    `En passant au véhicule électrique à ${commune.nom}, vous économisez en moyenne 1 250 € par an en rechargeant à domicile pendant les heures creuses par rapport aux carburants pétroliers classiques.`,
+    `À ${commune.nom}, la recharge résidentielle nocturne en heures creuses permet d'économiser entre 1 100 et 1 400 € par an sur votre budget mobilité comparé à un véhicule thermique équivalent.`,
+    `Les habitants de ${commune.nom} qui rechargent leur VE à domicile constatent une réduction moyenne de 1 200 € par an de leurs dépenses de déplacement, sans compter les économies sur l'entretien mécanique.`,
+    `Charger votre voiture électrique chez vous à ${commune.nom} revient à environ 3 € pour 300 km d'autonomie en heures creuses, soit une économie annuelle dépassant les 1 300 € par rapport au gazole.`,
+    `L'investissement dans une borne résidentielle à ${commune.nom} est amorti en moins de 18 mois grâce aux économies de carburant : comptez environ 2,50 € les 100 km en recharge domestique contre 12 € en thermique.`,
+    `Pour un conducteur parcourant 15 000 km par an depuis ${commune.nom}, la recharge à domicile en heures creuses représente un budget annuel d'environ 350 €, contre 1 600 € de carburant pour un véhicule thermique comparable.`,
+    `Les foyers de ${commune.nom} équipés d'une wallbox intelligente réduisent leur facture mobilité de 70 à 75% par rapport à l'essence, grâce à la programmation automatique de la charge pendant les plages tarifaires les plus avantageuses.`,
+    `À ${commune.nom}, la combinaison d'une borne de recharge domestique et d'un abonnement heures creuses Enedis vous fait économiser plus de 1 000 € chaque année, tout en bénéficiant d'un confort de recharge incomparable.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 140, variants.length)];
+}
+
+function getMarcheImmobilierInsight(commune: Commune, catOffset: number): string {
+  const prixM2 = commune.prixM2Moyen || 2400;
+  const marche = commune.marcheImmobilier || 'dynamique';
+  const variants = [
+    `Le marché immobilier local de ${commune.nom} est caractérisé par un secteur ${marche} avec un prix moyen de ${prixM2}€/m². Disposer d'une installation électrique IRVE y est un atout de vente recherché.`,
+    `Avec un prix immobilier moyen de ${prixM2}€/m² et un marché ${marche}, ${commune.nom} voit la présence d'une borne de recharge devenir un critère différenciant pour la valorisation des biens résidentiels.`,
+    `Sur le marché immobilier ${marche} de ${commune.nom} (${prixM2}€/m² en moyenne), l'équipement d'un logement en borne de recharge IRVE constitue un argument de vente de plus en plus décisif auprès des acquéreurs.`,
+    `Le secteur immobilier de ${commune.nom}, qualifié de ${marche} avec des prix autour de ${prixM2}€/m², accorde une importance croissante aux équipements de mobilité électrique dans la valorisation patrimoniale.`,
+    `À ${commune.nom} où le marché immobilier est ${marche} et les prix tournent autour de ${prixM2}€/m², installer une wallbox IRVE conforme aux normes ajoute une plus-value technique et financière mesurable à votre propriété.`,
+    `Dans le contexte immobilier ${marche} de ${commune.nom} (prix moyen : ${prixM2}€/m²), les agents immobiliers confirment que la présence d'une borne de recharge accélère significativement les transactions de vente.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 150, variants.length)];
+}
+
+function getIntercommunaliteContext(commune: Commune, catOffset: number): string {
+  const interco = commune.intercommunalite || 'Hérault';
+  const variants = [
+    `La commune de ${commune.nom} est pleinement intégrée au sein de l'intercommunalité "${interco}", qui encourage l'aménagement de bornes résidentielles et tertiaires.`,
+    `${commune.nom} fait partie de l'intercommunalité "${interco}" qui soutient activement le développement des infrastructures de recharge électrique sur son territoire.`,
+    `Au sein de l'intercommunalité "${interco}", ${commune.nom} bénéficie d'un accompagnement renforcé pour le déploiement de bornes de recharge, tant pour les particuliers que pour les copropriétés.`,
+    `L'appartenance de ${commune.nom} à l'intercommunalité "${interco}" lui permet de bénéficier des dispositifs d'aide à la transition énergétique et à l'installation de bornes de recharge résidentielles.`,
+    `L'intercommunalité "${interco}", dont fait partie ${commune.nom}, a inscrit le déploiement de points de charge résidentiels dans sa stratégie de mobilité décarbonée pour le territoire.`,
+    `La politique territoriale de l'intercommunalité "${interco}" favorise l'installation de bornes de recharge dans les communes comme ${commune.nom}, avec des dispositifs d'accompagnement technique et financier.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 160, variants.length)];
+}
+
+function getProfilCommuneInsight(commune: Commune, catOffset: number): string {
+  const pop = commune.population?.toLocaleString() || '3 000';
+  const profil = commune.profilCommune || 'commune résidentielle';
+  const tauxLabel = commune.tauxMaisonLabel || 'mixte';
+  const pctMaisons = commune.logementsMaison || 60;
+  const variants = [
+    `Avec un statut de ${profil} comptant ${pop} habitants, le taux d'équipement de logements de type ${tauxLabel} (${pctMaisons}% de maisons individuelles) favorise la pose de bornes privées dans les garages et allées.`,
+    `${commune.nom}, ${profil} de ${pop} habitants, présente un profil d'habitat ${tauxLabel} avec ${pctMaisons}% de maisons individuelles, un terrain idéal pour l'installation de bornes de recharge résidentielles dans les garages privatifs.`,
+    `Classée comme ${profil}, ${commune.nom} et ses ${pop} habitants disposent d'un parc de logements à dominante ${tauxLabel} (${pctMaisons}% de maisons), ce qui facilite considérablement le déploiement de wallbox privées à domicile.`,
+    `Les ${pop} habitants de ${commune.nom} (${profil}) vivent majoritairement dans un habitat de type ${tauxLabel}, avec ${pctMaisons}% de maisons individuelles disposant de garages ou carports propices à l'installation d'une borne murale.`,
+    `En tant que ${profil} de ${pop} habitants, ${commune.nom} se distingue par un tissu d'habitat ${tauxLabel} où ${pctMaisons}% des logements sont des maisons, offrant les conditions optimales pour accueillir une borne de recharge privée.`,
+    `Le profil de ${commune.nom} — ${profil} de ${pop} habitants avec ${pctMaisons}% de maisons individuelles (habitat ${tauxLabel}) — représente le cadre idéal pour l'installation d'une borne wallbox résidentielle avec un accès direct au garage.`
+  ];
+  return variants[getVariantIndex(commune.slug, catOffset + 170, variants.length)];
+}
+
+
 export function generateCommuneContent(commune: Commune, category: 'main' | 'copropriete' | 'wallbox'): LocalContent {
   const seed = commune.slug;
   const catOffset = category === 'main' ? 0 : category === 'copropriete' ? 100 : 200;
@@ -827,20 +933,20 @@ export function generateCommuneContent(commune: Commune, category: 'main' | 'cop
     expertTip: spinText(EXPERT_TIP_POOLS[category][tipIdx]),
     tableIntro: spinText(TABLE_INTRO_POOL[tableIntroIdx]),
     guideLinks: getGuideLinks(category, commune.slug),
-    savingsEstimate: `En passant au véhicule électrique à ${commune.nom}, vous économisez en moyenne 1 250 € par an en rechargeant à domicile pendant les heures creuses par rapport aux carburants pétroliers classiques.`,
+    savingsEstimate: getSavingsEstimate(commune, catOffset),
     lastUpdated: "Juin 2026",
     realEstateInsight: spinText(REAL_ESTATE_POOLS[category][realEstateIdx]),
     populationTierContent: spinText(POP_TIER_POOLS[category][popTierIdx]),
     densiteAnalysis,
-    marcheImmobilierInsight: `Le marché immobilier local de ${commune.nom} est caractérisé par un secteur ${commune.marcheImmobilier} avec un prix moyen de ${commune.prixM2Moyen || '2400'}€/m². Disposer d'une installation électrique IRVE y est un atout de vente recherché.`,
+    marcheImmobilierInsight: getMarcheImmobilierInsight(commune, catOffset),
     distanceMontpellierContext,
     anecdotePatrimoine: getAnecdotePatrimoine(commune.slug, commune.nom),
-    localRegulation: `À ${commune.nom}, toute installation de borne wallbox d'une puissance supérieure à 3.7 kW doit faire l'objet d'une déclaration et être posée par un technicien agréé IRVE pour être conforme à la norme NF C 15-100 et éligible aux aides nationales.`,
+    localRegulation: getLocalRegulation(commune, catOffset),
     sourcesCitation: spinText(SOURCES_CITATION_POOL[sourcesCitationIdx]),
-    mobiliteContext: `Pour les conducteurs de ${commune.nom}, la transition électrique s'accélère sous l'effet conjugué des restrictions d'accès ZFE dans l'aire montpelliéraine et de l'augmentation générale des coûts des carburants fossiles.`,
-    specificiteElectrique: `Les électriciens IRVE intervenant sur ${commune.nom} configurent des disjoncteurs divisionnaires courbe C de 40A et des interrupteurs différentiels 30mA dédiés de type A-EV contre les fuites de courant continu.`,
+    mobiliteContext: getMobiliteContext(commune, catOffset),
+    specificiteElectrique: getSpecificiteElectrique(commune, catOffset),
     expertBlockquote,
-    intercommunaliteContext: `La commune de ${commune.nom} est pleinement intégrée au sein de l'intercommunalité "${commune.intercommunalite || 'Hérault'}", qui encourage l'aménagement de bornes résidentielles et tertiaires.`,
-    profilCommuneInsight: `Avec un statut de ${commune.profilCommune || 'commune résidentielle'} comptant ${commune.population?.toLocaleString() || '3 000'} habitants, le taux d'équipement de logements de type ${commune.tauxMaisonLabel || 'mixte'} (${commune.logementsMaison || '60'}% de maisons individuelles) favorise la pose de bornes privées dans les garages et allées.`
+    intercommunaliteContext: getIntercommunaliteContext(commune, catOffset),
+    profilCommuneInsight: getProfilCommuneInsight(commune, catOffset)
   };
 }
